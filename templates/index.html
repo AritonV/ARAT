@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ARAT</title>
+    <style>
+      body {
+        width: 100%;
+        height: 100vh;
+        font-family: Arial;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        gap: 40px;
+        align-items: center;
+        margin: 0;
+        padding: 20px;
+        box-sizing: border-box;
+        background-color: #170d24;
+        background-image: radial-gradient(
+            ellipse at 10% 90%,
+            #3c2d83 0%,
+            transparent 55%
+          ),
+          radial-gradient(ellipse at 90% 90%, #c33c65 0%, transparent 55%),
+          radial-gradient(ellipse at 90% 10%, #4a74dc 0%, transparent 55%),
+          radial-gradient(ellipse at 10% 10%, #35244f 0%, transparent 55%);
+      }
+      #form_container {
+        width: 40%;
+        background-color: rgba(173, 216, 230, 0.5);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        border-radius: 10px;
+      }
+      #form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+      #name {
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #000;
+      }
+      #objects {
+        width: 100%;
+        max-height: 350px;
+        display: flex;
+        flex: 1;
+        gap: 20px;
+        justify-content: center;
+      }
+      .container {
+        width: 30%;
+        background-color: rgba(173, 216, 230, 0.5);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        padding: 30px;
+        border-radius: 10px;
+      }
+      .container div {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+      }
+      .container p {
+        margin: 0;
+        font-size: xx-large;
+      }
+      .container span {
+        font-size: xx-large;
+        font-weight: bold;
+        color: #3c2d83;
+      }
+      #logo {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 150px;
+        height: 150px;
+        color: white;
+      }
+      #total_container {
+        text-align: center;
+        width: fit-content;
+      }
+      .loaderbutton {
+        padding: 10px 30px;
+        background: #3e52c1;
+        border: none;
+        color: #fff;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1.2em;
+        position: relative;
+        display: block;
+        transition: all 0.3s ease;
+      }
+
+      .loaderbutton:disabled {
+        cursor: not-allowed;
+        background: #5560a0;
+      }
+
+      .loaderbutton::after {
+        content: "";
+        display: block;
+        width: 1.1em;
+        height: 1.1em;
+        position: absolute;
+        left: calc(50% - 0.75em);
+        top: calc(50% - 0.75em);
+        border: 0.2em solid transparent;
+        border-right-color: white;
+        border-radius: 50%;
+        animation: loader-animation 0.7s linear infinite;
+        opacity: 0;
+      }
+
+      @keyframes loader-animation {
+        from {
+          transform: rotate(0);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .loaderbutton.loading {
+        color: transparent;
+      }
+
+      .loaderbutton.loading::after {
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <img src="/static/ARAT_Logo.svg" alt="" id="logo" />
+    <div id="form_container">
+      <form id="form" action="/run_analysis" method="POST">
+        <div>
+          <h1>ARAT Test</h1>
+        </div>
+        <div>
+          <label for="name">Name:</label>
+          <br />
+          <input
+            type="text"
+            name="name"
+            id="name"
+            placeholder="Enter your name"
+          />
+        </div>
+        <button type="submit" class="loaderbutton" id="submit_btn">
+          Run Test
+        </button>
+      </form>
+    </div>
+    <div id="objects">
+      <div class="container" id="grasp">
+        <div>
+          <p>Red cube:</p>
+          <span>#</span>
+        </div>
+        <div>
+          <p>Yellow cube:</p>
+          <span>#</span>
+        </div>
+        <div>
+          <p>Green cube:</p>
+          <span>#</span>
+        </div>
+        <div>
+          <p>Blue cube:</p>
+          <span>#</span>
+        </div>
+        <div>
+          <p>Tennis Ball:</p>
+          <span>#</span>
+        </div>
+        <div>
+          <p>Stone:</p>
+          <span>#</span>
+        </div>
+      </div>
+      <div class="container" id="grip">
+        <div>
+          <p>Tall Orange Tube:</p>
+          <span>#</span>
+        </div>
+        <div>
+          <p>Short Blue Tube:</p>
+          <span>#</span>
+        </div>
+        <div>
+          <p>Washer:</p>
+          <span>#</span>
+        </div>
+      </div>
+      <div class="container" id="pinch">
+        <div>
+          <p>Marble Index:</p>
+          <span>#</span>
+        </div>
+        <div>
+          <p>Marble Middle:</p>
+          <span>#</span>
+        </div>
+        <div>
+          <p>Marble Ring:</p>
+          <span>#</span>
+        </div>
+      </div>
+    </div>
+    <div class="container" id="total_container">
+      <h2>Total Score: <span id="total_score">#</span> out of 36</h2>
+      <h2 style="display: block;" id="prev_container">Your Previous Score Was: <span id="prev_total_score">#</span></h2>
+    </div>
+
+    <script>
+      const submit_btn = document.getElementById("submit_btn");
+      const graspSpans = document.querySelectorAll("#grasp span");
+      const gripSpans = document.querySelectorAll("#grip span");
+      const pinchSpans = document.querySelectorAll("#pinch span");
+      const total_score = document.getElementById("total_score");
+      const prev_container = document.getElementById("prev_container");
+      const prev_total_score = document.getElementById("prev_total_score");
+      let graspNames = [
+        "red cube",
+        "yellow cube",
+        "green cube",
+        "blue cube",
+        "tennis ball",
+        "stone",
+      ];
+      let gripNames = [
+        "tall orange tube",
+        "short blue tube",
+        "washer"
+      ];
+      let pinchNames = [
+        "marble with index finger",
+        "marble with middle finger",
+        "marble with ring finger"
+      ];
+
+      form = document.getElementById("form");
+      form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        submit_btn.classList.add("loading");
+        submit_btn.setAttribute("disabled", "");
+        const formData = new FormData(form);
+        const response = await fetch("/run_analysis", {
+          method: "POST",
+          body: formData,
+        });
+        if (response.ok) {
+          submit_btn.classList.remove("loading");
+          submit_btn.removeAttribute("disabled");
+          const data = await response.json();
+          console.log(data);
+          last_test = data[data.length - 1];
+          if (data.length > 1) {
+            last_test_total_score = data[data.length - 2].total_score;
+            prev_container.style.display = "block";
+            prev_total_score.textContent = last_test_total_score;
+          }
+          for (let i = 0; i < last_test.scores.length; i++) {
+            let score = last_test.scores[i];
+            if (graspNames.includes(score.object)) {
+              graspSpans[graspNames.indexOf(score.object)].textContent = score.score;
+            } else if (gripNames.includes(score.object)) {
+              gripSpans[gripNames.indexOf(score.object)].textContent = score.score;
+            } else if (pinchNames.includes(score.object)) {
+              pinchSpans[pinchNames.indexOf(score.object)].textContent = score.score;
+            }
+          }
+          total_score.textContent = last_test.total_score;
+        }
+      });
+    </script>
+  </body>
+</html>

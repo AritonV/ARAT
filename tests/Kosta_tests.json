@@ -1,0 +1,56 @@
+[
+  {
+    "scores": [
+      {
+        "score": 2,
+        "object": "red cube"
+      },
+      {
+        "score": 2,
+        "object": "yellow cube"
+      },
+      {
+        "score": 3,
+        "object": "green cube"
+      },
+      {
+        "score": 2,
+        "object": "blue cube"
+      },
+      {
+        "score": 2,
+        "object": "tennis ball"
+      },
+      {
+        "score": 2,
+        "object": "stone"
+      },
+      {
+        "score": 2,
+        "object": "tall orange tube"
+      },
+      {
+        "score": 2,
+        "object": "short blue tube"
+      },
+      {
+        "score": 1,
+        "object": "washer"
+      },
+      {
+        "score": 1,
+        "object": "marble with index finger"
+      },
+      {
+        "score": 2,
+        "object": "marble with middle finger"
+      },
+      {
+        "score": 2,
+        "object": "marble with ring finger"
+      }
+    ],
+    "total_score": 23,
+    "date": "10:53 23-05-2024"
+  }
+]
